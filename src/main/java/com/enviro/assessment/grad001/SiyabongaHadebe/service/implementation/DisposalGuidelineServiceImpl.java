@@ -24,19 +24,19 @@ import java.util.stream.Collectors;
 @Service
 public class DisposalGuidelineServiceImpl implements DisposalGuidelineService {
 
+    // Injects the DisposalGuidelineRepository dependency
     @Autowired
     private DisposalGuidelineRepository disposalGuidelineRepository;
 
+    // Injects the DisposalGuidelineDTOMapper dependency
     @Autowired
     private DisposalGuidelineDTOMapper disposalGuidelineDTOMapper;
 
+    // Injects the WasteCategoryRepository dependency
     @Autowired
     private WasteCategoryRepository wasteCategoryRepository;
 
-    /**
-     * Retrieves all disposal guidelines.
-     * @return a list of disposal guidelines.
-     */
+    // Retrieves all disposal guidelines and maps them to DTOs
     @Override
     public List<DisposalGuidelineDTO> findAllDisposalGuidelines() {
         return disposalGuidelineRepository.findAll()
@@ -47,11 +47,7 @@ public class DisposalGuidelineServiceImpl implements DisposalGuidelineService {
 
 
 
-    /**
-     * Retrieves a disposal guideline by its ID.
-     * @param id the ID of the disposal guideline.
-     * @return an Optional containing the disposal guideline if found, or empty if not.
-     */
+    // Retrieves a disposal guideline by ID and maps it to a DTO
     public DisposalGuidelineDTO findDisposalGuidelineById(Long id) {
         return disposalGuidelineRepository.findById(id)
                 .map(disposalGuidelineDTOMapper)
@@ -60,11 +56,7 @@ public class DisposalGuidelineServiceImpl implements DisposalGuidelineService {
                 ));
     }
 
-    /**
-     * Saves a new disposal guideline.
-     * @param disposalGuidelineRequest the disposal guideline to save.
-     * @return the saved disposal guideline.
-     */
+    
     @Override
     public void createDisposalGuideline(DisposalGuidelineRequest disposalGuidelineRequest, Long wasteCategoryId) {
         WasteCategory wasteCategory = wasteCategoryRepository.findById(wasteCategoryId)
@@ -79,10 +71,7 @@ public class DisposalGuidelineServiceImpl implements DisposalGuidelineService {
 
 
 
-    /**
-     * Deletes a disposal guideline by its ID.
-     * @param id the ID of the disposal guideline to delete.
-     */
+     // Deletes a disposal guideline by ID
      public void deleteDisposalGuideline(Long id) {
          checkIfDisposalGuidelineExistsOrThrow(id);
          disposalGuidelineRepository.deleteById(id);
