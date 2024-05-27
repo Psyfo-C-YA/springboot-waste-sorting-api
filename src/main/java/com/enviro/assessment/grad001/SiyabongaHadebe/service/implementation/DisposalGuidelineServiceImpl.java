@@ -56,7 +56,8 @@ public class DisposalGuidelineServiceImpl implements DisposalGuidelineService {
                 ));
     }
 
-    
+
+    // Creates a new disposal guideline
     @Override
     public void createDisposalGuideline(DisposalGuidelineRequest disposalGuidelineRequest, Long wasteCategoryId) {
         WasteCategory wasteCategory = wasteCategoryRepository.findById(wasteCategoryId)
