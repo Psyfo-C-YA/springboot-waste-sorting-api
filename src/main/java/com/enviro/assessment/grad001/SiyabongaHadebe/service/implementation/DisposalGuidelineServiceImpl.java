@@ -46,8 +46,8 @@ public class DisposalGuidelineServiceImpl implements DisposalGuidelineService {
     }
 
 
-
     // Retrieves a disposal guideline by ID and maps it to a DTO
+    @Override
     public DisposalGuidelineDTO findDisposalGuidelineById(Long id) {
         return disposalGuidelineRepository.findById(id)
                 .map(disposalGuidelineDTOMapper)
@@ -70,13 +70,14 @@ public class DisposalGuidelineServiceImpl implements DisposalGuidelineService {
     }
 
 
-
      // Deletes a disposal guideline by ID
+     @Override
      public void deleteDisposalGuideline(Long id) {
          checkIfDisposalGuidelineExistsOrThrow(id);
          disposalGuidelineRepository.deleteById(id);
      }
 
+    // Helper function that checks whether disposal guidline exists
     private void checkIfDisposalGuidelineExistsOrThrow(Long id) {
         if (!disposalGuidelineRepository.existsDisposalGuidelineById(id)) {
             throw new ResourceNotFoundException(
@@ -86,6 +87,7 @@ public class DisposalGuidelineServiceImpl implements DisposalGuidelineService {
     }
 
 
+    // Updates a disposal guideline
     @Override
     public void updateDisposalGuideline(Long id, DisposalGuidelineRequest guideLineRequest, Long wasteCategoryId) {
         WasteCategory wasteCategory = wasteCategoryRepository.findById(wasteCategoryId)
@@ -114,6 +116,4 @@ public class DisposalGuidelineServiceImpl implements DisposalGuidelineService {
 
         disposalGuidelineRepository.save(disposalGuideline);
     }
-
-
 }
