@@ -23,32 +23,26 @@ import java.util.stream.Collectors;
 @Service
 public class RecyclingTipServiceImpl implements RecyclingTipService {
 
+    // Injects the RecyclingTipRepository dependency
     @Autowired
     private RecyclingTipRepository recyclingTipRepository;
 
+    // Injects the RecyclingTipDTOMapper dependency
     @Autowired
     private RecyclingTipDTOMapper recyclingTipDTOMapper;
 
+    // Injects the WasteCategoryRepository dependency
     @Autowired
     private WasteCategoryRepository wasteCategoryRepository;
 
-    /**
-     * Retrieves all recycling tips.
-     * @return a list of recycling tips.
-     */
+    // Retrieves all recycling tips and maps them to DTOs
     public List<RecyclingTipDTO> findAllRecyclingTips() {
         return recyclingTipRepository.findAll().stream()
                 .map(recyclingTipDTOMapper)
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Retrieves a recycling tip by its ID.
-     *
-     * @param id the ID of the recycling tip.
-     * @return an Optional containing the recycling tip if found,
-     * * @return an Optional containing the recycling tip if found, or empty if not.
-     */
+    // Retrieves a recycling tip by ID and maps it to a DTO
     public RecyclingTipDTO findRecyclingTipById(Long id) {
         return recyclingTipRepository.findById(id)
                 .map(recyclingTipDTOMapper)
@@ -57,11 +51,7 @@ public class RecyclingTipServiceImpl implements RecyclingTipService {
                 ));
     }
 
-    /**
-     * Saves a new recycling tip.
-     * @param recyclingTipRequest the recycling tip to save.
-     * @return the saved recycling tip.
-     */
+    // Creates a new recycling tip
     @Override
     public void createRecyclingTip(RecyclingTipRequest recyclingTipRequest, Long wasteCategoryId) {
         WasteCategory wasteCategory = wasteCategoryRepository.findById(wasteCategoryId)
@@ -74,7 +64,7 @@ public class RecyclingTipServiceImpl implements RecyclingTipService {
         recyclingTipRepository.save(recyclingTip);
     }
 
-
+    // Updates a recycling tip
     @Override
     public void updateRecyclingTip(Long id, RecyclingTipRequest recyclingTipRequest, Long wasteCategoryId) {
         WasteCategory wasteCategory = wasteCategoryRepository.findById(wasteCategoryId)
@@ -105,15 +95,13 @@ public class RecyclingTipServiceImpl implements RecyclingTipService {
         recyclingTipRepository.save(recyclingTip);
     }
 
-    /**
-     * Deletes a recycling tip by its ID.
-     * @param id the ID of the recycling tip to delete.
-     */
+    // Deletes a recycling tip by ID
     public void deleteRecyclingTip(Long id) {
         checkIfRecyclingTipExistsOrThrow(id);
         recyclingTipRepository.deleteById(id);
     }
 
+    // Helper method that checks if a recycling tip exists by ID, throws an exception if not
     private void checkIfRecyclingTipExistsOrThrow(Long id) {
         if (!recyclingTipRepository.existsRecyclingTipById(id)) {
             throw new ResourceNotFoundException(
