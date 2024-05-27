@@ -20,61 +20,46 @@ import java.util.List;
 @Validated
 public class WasteCategoryController {
 
+    // Injects the WasteCategoryService dependency
     @Autowired
     private WasteCategoryServiceImpl wasteCategoryService;
 
-    /**
-     * Retrieves all waste categories.
-     * @return a list of waste categories.
-     */
+    // Handles GET requests to retrieve all waste categories
     @GetMapping
     public List<WasteCategoryDTO> getAllCategories() {
         return wasteCategoryService.findAllWasteCategories();
     }
 
-
-    /**
-     * Retrieves a waste category by its ID.
-     * @param id the ID of the waste category.
-     * @return the waste category, or 404 if not found.
-     */
+    // Handles GET requests to retrieve a waste category by ID
     @GetMapping("/{id}")
     public ResponseEntity<WasteCategoryDTO> getCategoryById(@PathVariable Long id) {
         return ResponseEntity.ok(wasteCategoryService.findWasteCategoryById(id));
     }
 
+    // Handles GET requests to retrieve a waste category by name
     @GetMapping("/name/{name}")
     public ResponseEntity<WasteCategoryDTO> getCategoryByName(@PathVariable String name) {
         return ResponseEntity.ok(wasteCategoryService.findWasteCategoryByName(name));
     }
 
-    /**
-     * Creates a new waste category.
-     * @param wasteCategoryRequest the waste category to create.
-     * @return the created waste category.
-     */
+    // Handles POST requests to create a new waste category
     @PostMapping
     public ResponseEntity<WasteCategoryDTO> createCategory(@Valid @RequestBody WasteCategoryRequest wasteCategoryRequest) {
         wasteCategoryService.createWasteCategory(wasteCategoryRequest);
         return ResponseEntity.ok().build();
     }
 
+    // Handles PUT requests to update an existing waste category
     @PutMapping("/{id}")
     public ResponseEntity<WasteCategoryDTO> updateCategory(@PathVariable Long id, @Valid @RequestBody WasteCategoryRequest wasteCategoryRequest) {
         wasteCategoryService.updateWasteCategory(id, wasteCategoryRequest);
         return ResponseEntity.ok().build();
     }
 
-    /**
-     * Deletes a waste category by its ID.
-     * @param id the ID of the waste category to delete.
-     * @return 204 No Content if successful, 404 if not found.
-     */
+    // Handles DELETE requests to delete a waste category by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         wasteCategoryService.deleteWasteCategory(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }
