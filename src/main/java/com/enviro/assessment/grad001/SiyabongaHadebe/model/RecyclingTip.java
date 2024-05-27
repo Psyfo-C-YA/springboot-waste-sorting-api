@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotEmpty;
  */
 @Entity
 @Table(name = "recycling_tips")
+// Handles circular references during JSON serialization
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class RecyclingTip {
 
@@ -20,6 +21,7 @@ public class RecyclingTip {
     @NotEmpty(message = "Tip description is required")
     private String tip;
 
+    // Defines a many-to-one relationship with WasteCategory
     @ManyToOne
     @JoinColumn(name = "waste_category_id", nullable = false)
     private WasteCategory wasteCategory;
