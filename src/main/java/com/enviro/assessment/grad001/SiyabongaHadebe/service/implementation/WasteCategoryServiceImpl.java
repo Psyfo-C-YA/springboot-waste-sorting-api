@@ -21,26 +21,21 @@ import java.util.stream.Collectors;
 @Service
 public class WasteCategoryServiceImpl implements WasteCategoryService {
 
+    // Injects the CategoryRepository dependency
     @Autowired
     private WasteCategoryRepository wasteCategoryRepository;
 
+    // Injects the CategoryDTOMapper dependency
     @Autowired
     private WasteCategoryDTOMapper wasteCategoryDTOMapper;
 
-    /**
-     * Retrieves all waste categories.
-     * @return a list of waste categories.
-     */
+    // Retrieves all waste categories and maps them to DTOs
     @Override
     public List<WasteCategoryDTO> findAllWasteCategories() {
         return wasteCategoryRepository.findAll().stream().map(wasteCategoryDTOMapper).collect(Collectors.toList());
     }
 
-    /**
-     * Retrieves a waste category by its ID.
-     * @param id the ID of the waste category.
-     * @return an Optional containing the waste category if found, or empty if not.
-     */
+    // Retrieves a waste ccategory by ID and maps it to a DTO
     @Override
     public WasteCategoryDTO findWasteCategoryById(Long id) {
         return wasteCategoryRepository.findById(id)
@@ -50,6 +45,7 @@ public class WasteCategoryServiceImpl implements WasteCategoryService {
                 ));
     }
 
+    // Retrieves a waste category by name and maps it to a DTO
     @Override
     public WasteCategoryDTO findWasteCategoryByName(String name) {
         return wasteCategoryRepository.findWasteCategoryByName(name)
@@ -59,11 +55,8 @@ public class WasteCategoryServiceImpl implements WasteCategoryService {
                 ));
     }
 
-    /**
-     * Create a new waste category.
-     *
-     * @param wasteCategoryRequest the waste category to save.
-     */
+
+    // Creates a new waste category
     @Override
     public void createWasteCategory(WasteCategoryRequest wasteCategoryRequest) {
         // Check if category exists
@@ -82,16 +75,14 @@ public class WasteCategoryServiceImpl implements WasteCategoryService {
 
 
 
-    /**
-     * Deletes a waste category by its ID.
-     * @param id the ID of the waste category to delete.
-     */
+    // Deletes a waste category by ID
     @Override
     public void deleteWasteCategory(Long id) {
         checkIfCategoryExistsOrThrow(id);
         wasteCategoryRepository.deleteById(id);
     }
 
+    // Helper function to check is waste category exists
     private void checkIfCategoryExistsOrThrow(Long categoryId) {
         if (!wasteCategoryRepository.existsWasteCategoryById(categoryId)) {
             throw new ResourceNotFoundException(
@@ -100,6 +91,7 @@ public class WasteCategoryServiceImpl implements WasteCategoryService {
         }
     }
 
+    // Updates a waste category
     @Override
     public void updateWasteCategory(Long id, WasteCategoryRequest wasteCategoryRequest) {
         WasteCategory category = wasteCategoryRepository.findById(id)
