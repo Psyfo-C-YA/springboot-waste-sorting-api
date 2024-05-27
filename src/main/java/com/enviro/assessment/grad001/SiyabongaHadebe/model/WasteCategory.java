@@ -14,6 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "categories")
+// Handles circular references during JSON serialization
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class WasteCategory {
 
@@ -24,14 +25,11 @@ public class WasteCategory {
     @NotEmpty(message = "Category name is required")
     private String name;
 
-
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "wasteCategory", fetch = FetchType.EAGER)
+    // Defines a one-to-many relationship with DisposalGuideline
     @OneToMany(mappedBy = "wasteCategory", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DisposalGuideline> disposalGuidelines;
 
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "wasteCategory", fetch = FetchType.EAGER)
+    // Defines a one-to-many relationship with RecyclingTip
     @OneToMany(mappedBy = "wasteCategory", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecyclingTip> recyclingTips;
 
